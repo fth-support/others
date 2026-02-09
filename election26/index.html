@@ -3,308 +3,672 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thailand Election 2026: Final Strategic Report</title>
+    <meta name="description" content="Thailand Election 2026 Strategic Report - Masterpiece Edition">
+    <title>MASTERPIECE: Thailand Election 2026 Strategic Intelligence (Unified)</title>
+    
     <style>
+        /* =========================================
+           1. ROOT VARIABLES & THEME CONFIGURATION
+           ========================================= */
         :root {
-            /* McKinsey-inspired Palette */
+            /* Corporate Identity Colors (McKinsey Style) */
             --mck-deep-blue: #051c2c;
             --mck-blue: #002c5f;
             --mck-light-blue: #00558c;
             --mck-cyan: #00a9e0;
             --mck-gray-bg: #f4f7f9;
             --mck-white: #ffffff;
-            --text-main: #333333;
-            --text-light: #666666;
             
-            /* Party Colors */
-            --party-pp: #ff8c00;  /* People's Party */
-            --party-bjt: #0047AB; /* Bhumjaithai */
-            --party-pt: #d22630;  /* Pheu Thai */
-            --party-dem: #4682B4; /* Democrat */
-            --party-kt: #2E8B57;  /* Kla Tham (Green as per image) */
+            /* Typography Colors */
+            --text-main: #333333;
+            --text-light: #555555;
+            --text-muted: #888888;
+            
+            /* Political Party Branding Colors */
+            --party-pp: #ff8c00;  /* People's Party (Orange) */
+            --party-bjt: #0047AB; /* Bhumjaithai (Blue) */
+            --party-pt: #d22630;  /* Pheu Thai (Red) */
+            --party-dem: #4682B4; /* Democrat (Light Blue) */
+            --party-kt: #2E8B57;  /* Kla Tham (Green) */
+            
+            /* Accreditation & Special Accents */
+            --accent-gold: #af9339;
+            --accent-gold-light: #d4af37;
+            --success-green: #4caf50;
+            --warning-amber: #ff9800;
+        }
+
+        /* =========================================
+           2. GLOBAL RESET & BASE STYLES
+           ========================================= */
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         body {
-            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
             background-color: var(--mck-gray-bg);
             color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
-            line-height: 1.8;
+            padding: 0;
+            line-height: 1.7;
+            font-size: 16px;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
+        /* =========================================
+           3. CONTAINER & LAYOUT STRUCTURE
+           ========================================= */
+        .masterpiece-container {
+            max-width: 1280px;
+            margin: 40px auto;
             background: var(--mck-white);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.08);
-            border-top: 12px solid var(--mck-blue);
-        }
-
-        /* --- Header Section --- */
-        .report-header {
-            padding: 60px 50px;
-            border-bottom: 1px solid #eee;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.12);
+            border-top: 15px solid var(--mck-blue);
             position: relative;
             overflow: hidden;
+            border-radius: 4px;
         }
-        .report-header::after {
-            content: "UPDATED WITH LIVE DATA";
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 10px;
-            color: var(--mck-cyan);
-            letter-spacing: 2px;
-            border: 1px solid var(--mck-cyan);
-            padding: 5px 10px;
-            font-weight: bold;
+
+        .content-padding {
+            padding: 60px;
         }
+
+        /* Grid Systems */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        /* =========================================
+           4. HEADER & BRANDING ELEMENTS
+           ========================================= */
+        header.main-header {
+            background: linear-gradient(135deg, #ffffff 0%, #f4f7f9 100%);
+            border-bottom: 1px solid #e0e0e0;
+            position: relative;
+            padding: 80px 60px;
+        }
+
         .meta-tag {
+            display: inline-block;
+            background-color: rgba(0, 169, 224, 0.1);
             color: var(--mck-cyan);
+            padding: 5px 12px;
+            border-radius: 4px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            font-size: 13px;
-            margin-bottom: 15px;
-            display: block;
+            font-size: 12px;
+            margin-bottom: 20px;
         }
-        h1 {
-            font-size: 42px;
+
+        h1.report-title {
+            font-size: 56px;
             color: var(--mck-deep-blue);
-            margin: 0 0 15px 0;
+            margin: 0 0 20px 0;
             font-weight: 700;
-            line-height: 1.2;
+            line-height: 1.1;
+            letter-spacing: -1px;
         }
-        .sub-headline {
-            font-size: 20px;
+
+        h1.report-title span {
+            color: var(--mck-cyan);
+        }
+
+        p.sub-headline {
+            font-size: 22px;
             color: var(--text-light);
             font-weight: 300;
-            max-width: 800px;
+            max-width: 900px;
+            margin: 0;
         }
 
-        /* --- Executive Summary & Mottos --- */
-        .exec-summary-box {
-            background-color: #002c5f;
+        /* Gold Seal Badge */
+        .gold-seal {
+            position: absolute;
+            top: 40px;
+            right: 60px;
+            width: 120px;
+            height: 120px;
+            background: radial-gradient(circle at 30% 30%, var(--accent-gold-light) 0%, var(--accent-gold) 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
             color: white;
-            padding: 50px;
-            position: relative;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            border: 5px double rgba(255,255,255,0.8);
+            transform: rotate(15deg);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            z-index: 10;
+            line-height: 1.2;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
-        .exec-summary-box h2 {
-            margin-top: 0;
+
+        /* =========================================
+           5. SECTION STYLING
+           ========================================= */
+        .section-box {
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .section-box.bg-dark {
+            background-color: var(--mck-deep-blue);
+            color: white;
+        }
+
+        .section-box.bg-light {
+            background-color: #fafbfe;
+        }
+
+        .section-tag {
             color: var(--mck-cyan);
-            font-size: 16px;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 1px;
+            display: block;
+            margin-bottom: 15px;
+            font-size: 13px;
+            border-left: 3px solid var(--mck-cyan);
+            padding-left: 10px;
         }
-        .exec-summary-text {
-            font-size: 18px;
+
+        h2.section-heading {
+            font-size: 32px;
+            color: var(--mck-blue);
+            margin-bottom: 40px;
+            font-weight: 600;
+            position: relative;
+        }
+        
+        .bg-dark h2.section-heading {
+            color: white;
+        }
+
+        /* =========================================
+           6. EXECUTIVE SUMMARY COMPONENTS
+           ========================================= */
+        .exec-text {
+            font-size: 20px;
             font-weight: 300;
             opacity: 0.95;
-            margin-bottom: 30px;
+            line-height: 1.8;
+            max-width: 1000px;
         }
+
         .motto-banner {
-            background: rgba(255,255,255,0.1);
-            border-left: 5px solid var(--mck-cyan);
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border-left: 6px solid var(--mck-cyan);
+            padding: 30px;
             font-style: italic;
             font-family: 'Georgia', serif;
-            font-size: 22px;
-            margin-top: 20px;
+            font-size: 24px;
+            margin: 40px 0;
+            color: #e0f7fa;
         }
 
-        /* --- Content Sections --- */
-        .content-section {
-            padding: 50px;
-            border-bottom: 1px solid #f0f0f0;
+        /* Persona Cards */
+        .persona-card {
+            padding: 40px 30px;
+            border-radius: 12px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
-        
-        h2.section-heading {
-            color: var(--mck-blue);
-            font-size: 28px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
+
+        .persona-card:hover {
+            transform: translateY(-5px);
         }
-        h2.section-heading::before {
+
+        .persona-card::before {
             content: '';
-            display: inline-block;
-            width: 8px;
-            height: 35px;
-            background-color: var(--mck-cyan);
-            margin-right: 20px;
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 100px;
+            height: 100px;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
         }
 
-        /* --- Grid & Cards --- */
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
-        .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
-        
+        .persona-card h3 {
+            margin-top: 0;
+            font-size: 22px;
+            border-bottom: 2px solid rgba(255,255,255,0.3);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .persona-card p {
+            font-size: 15px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* =========================================
+           7. DATA VISUALIZATION: STAT CARDS
+           ========================================= */
         .stat-card {
-            background: #fff;
+            background: white;
             border: 1px solid #e0e0e0;
-            padding: 30px;
+            padding: 35px;
             border-radius: 8px;
             text-align: center;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
         }
-        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
-        .stat-big { font-size: 48px; font-weight: 800; color: var(--mck-blue); margin: 10px 0; }
-        .stat-label { color: var(--text-light); font-size: 14px; text-transform: uppercase; font-weight: 600; }
-        .stat-desc { font-size: 13px; color: #888; margin-top: 10px; }
 
-        /* --- Graphics: Bars --- */
-        .bar-chart-container { margin-top: 20px; }
-        .bar-row { margin-bottom: 15px; }
-        .bar-header { display: flex; justify-content: space-between; font-size: 14px; font-weight: 600; margin-bottom: 5px; color: var(--mck-blue); }
-        .bar-track { background: #eee; height: 14px; border-radius: 7px; overflow: hidden; }
-        .bar-fill { height: 100%; border-radius: 7px; animation: slideIn 1.5s ease-out; }
-
-        @keyframes slideIn { from { width: 0; } }
-
-        /* --- Table Styling --- */
-        .strategic-table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 15px;
-            margin-top: 20px;
+        .stat-card:hover {
+            box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+            border-color: var(--mck-cyan);
+            transform: translateY(-5px);
         }
-        .strategic-table th {
-            text-align: left;
-            padding: 15px;
-            background-color: var(--mck-gray-bg);
-            color: var(--mck-blue);
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 13px;
+            text-transform: uppercase;
             font-weight: 700;
-            border-top: 2px solid var(--mck-blue);
+            letter-spacing: 1px;
         }
-        .strategic-table td {
-            padding: 15px;
+
+        .stat-big {
+            font-size: 56px;
+            font-weight: 800;
+            color: var(--mck-blue);
+            margin: 15px 0;
+            line-height: 1;
+        }
+
+        .stat-desc {
+            font-size: 14px;
+            color: var(--text-light);
+            font-style: italic;
+        }
+
+        /* =========================================
+           8. DATA VISUALIZATION: TABLES
+           ========================================= */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        table.master-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: white;
+        }
+
+        table.master-table th {
+            background-color: var(--mck-blue);
+            color: white;
+            padding: 20px;
+            text-align: left;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        table.master-table td {
+            padding: 20px;
             border-bottom: 1px solid #eee;
             vertical-align: middle;
+            color: var(--text-main);
         }
-        .strategic-table tr:last-child td { border-bottom: none; }
-        
+
+        table.master-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        table.master-table tr:hover td {
+            background-color: #f8fbff;
+        }
+
         .status-badge {
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 4px;
+            padding: 6px 12px;
+            border-radius: 20px;
             color: white;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
+            text-align: center;
             min-width: 40px;
-            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* --- Quote & Insight Boxes --- */
-        .insight-highlight {
-            background: #fff9f0; /* Soft Orange */
-            border-left: 4px solid #ffb74d;
-            padding: 25px;
-            margin: 30px 0;
-            border-radius: 0 8px 8px 0;
-        }
-        .insight-highlight h4 { color: #d88c00; margin: 0 0 10px 0; text-transform: uppercase; font-size: 14px; }
-        
-        .quote-large {
-            font-size: 26px;
-            font-weight: 300;
-            color: var(--mck-blue);
-            text-align: center;
-            padding: 40px;
-            border-top: 1px solid #eee;
-            border-bottom: 1px solid #eee;
-            margin: 40px 0;
-            font-family: 'Georgia', serif;
-            background-color: #fcfcfc;
-        }
-        .quote-large span { display: block; font-size: 14px; color: #999; margin-top: 15px; font-family: sans-serif; font-style: normal; text-transform: uppercase; }
-
-        /* --- Local Network Graphic --- */
-        .network-graphic {
-            background: #fdfdfd;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 20px;
-            margin-top: 20px;
+        /* =========================================
+           9. DATA VISUALIZATION: CHARTS & GRAPHS
+           ========================================= */
+        /* Donut Chart */
+        .donut-container {
             display: flex;
             align-items: center;
-            justify-content: space-around;
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid #eee;
         }
-        .node {
-            text-align: center;
-            padding: 15px;
-        }
-        .node-circle {
-            width: 80px;
-            height: 80px;
+
+        .donut-chart {
+            width: 160px;
+            height: 160px;
             border-radius: 50%;
-            background: var(--party-kt);
+            background: conic-gradient(var(--party-pp) 0% 65%, #eeeeee 65% 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-right: 40px;
+            position: relative;
+        }
+
+        .donut-chart::before {
+            content: '';
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .donut-text {
+            position: relative;
+            z-index: 1;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--mck-blue);
+        }
+
+        .donut-label span {
+            display: block;
+        }
+
+        /* Progress Bars */
+        .bar-group {
+            margin-bottom: 25px;
+        }
+        
+        .bar-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--mck-blue);
+        }
+
+        .bar-track {
+            width: 100%;
+            height: 16px;
+            background-color: #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 8px;
+            transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        /* Network Visual */
+        .network-container {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            padding: 40px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .net-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .node-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
-            margin: 0 auto 10px auto;
-            box-shadow: 0 4px 10px rgba(46, 139, 87, 0.3);
+            font-size: 14px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-        .node-arrow { font-size: 24px; color: #ccc; }
 
-        /* --- Footer --- */
-        .footer {
-            background: var(--mck-deep-blue);
-            color: #8fa6b8;
-            padding: 40px 50px;
+        .net-arrow {
+            font-size: 30px;
+            color: #bdbdbd;
+        }
+
+        /* Insight Box */
+        .insight-box {
+            background-color: #fff8e1;
+            border-left: 5px solid #ffb300;
+            padding: 30px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 20px;
+        }
+        
+        .insight-box.green {
+            background-color: #e8f5e9;
+            border-left-color: #43a047;
+        }
+
+        .insight-title {
+            color: #ef6c00;
+            font-weight: 800;
+            text-transform: uppercase;
             font-size: 13px;
+            margin-bottom: 10px;
+            display: block;
         }
-        .footer strong { color: #fff; }
-        .footer ul { padding-left: 20px; margin-top: 5px; color: #b0c4de; }
-        .disclaimer { margin-top: 30px; padding-top: 20px; border-top: 1px solid #3d5a73; font-size: 11px; color: #6c8a9e; font-style: italic; }
+        
+        .insight-box.green .insight-title {
+            color: #2e7d32;
+        }
 
-        /* Mobile Responsive */
+        /* =========================================
+           10. STRATEGY MIX & FOOTER
+           ========================================= */
+        .strategy-container {
+            display: flex;
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .strat-card {
+            flex: 1;
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+        
+        .strat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--mck-cyan);
+        }
+
+        .strat-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .strat-card.gold-border {
+            border: 3px solid var(--accent-gold);
+        }
+
+        footer.main-footer {
+            background-color: var(--mck-deep-blue);
+            color: #90a4ae;
+            padding: 80px 60px;
+            font-size: 14px;
+        }
+
+        .footer-cols {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 60px;
+        }
+
+        .footer-title {
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .footer ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer li {
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 12px;
+        }
+
+        .disclaimer {
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 12px;
+            font-style: italic;
+            text-align: center;
+            opacity: 0.7;
+        }
+
+        /* =========================================
+           11. RESPONSIVE MEDIA QUERIES
+           ========================================= */
+        @media (max-width: 992px) {
+            .grid-3 { grid-template-columns: repeat(2, 1fr); }
+            h1.report-title { font-size: 42px; }
+            .content-padding { padding: 40px; }
+        }
+
         @media (max-width: 768px) {
-            .grid-2, .grid-3 { grid-template-columns: 1fr; }
-            .report-header, .content-section, .exec-summary-box { padding: 30px 20px; }
-            h1 { font-size: 32px; }
-            .network-graphic { flex-direction: column; }
-            .node-arrow { transform: rotate(90deg); margin: 10px 0; }
+            .grid-2, .grid-3, .strategy-container, .footer-cols { grid-template-columns: 1fr; }
+            .strategy-container { flex-direction: column; }
+            header.main-header { padding: 40px 20px; }
+            .content-padding { padding: 30px 20px; }
+            h1.report-title { font-size: 32px; }
+            .gold-seal { top: 20px; right: 20px; width: 80px; height: 80px; font-size: 9px; }
+            .network-container { flex-direction: column; gap: 20px; }
+            .net-arrow { transform: rotate(90deg); }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header class="report-header">
-        <span class="meta-tag">Thailand General Election 2026</span>
-        <h1>The Digital Duality Report:<br>Social Algorithms vs. Ground Reality</h1>
+<div class="masterpiece-container">
+    
+    <div class="gold-seal">
+        <span>STRATEGIC</span>
+        <span>INTELLIGENCE</span>
+        <span>2026</span>
+    </div>
+
+    <header class="main-header">
+        <span class="meta-tag">Thailand General Election 2026 • Unified Data Edition</span>
+        <h1 class="report-title">The <span>Digital Duality</span> Report:<br>Algorithms vs. Ground Reality</h1>
         <p class="sub-headline">
-            บทวิเคราะห์เชิงลึก เปรียบเทียบผลกระทบของภูมิทัศน์ดิจิทัลที่มีต่อผลการเลือกตั้งจริง 
-            พร้อมข้อมูลยืนยันล่าสุด (Confirmed Data)
+            บทวิเคราะห์เชิงลึกระดับสูงสุด (Masterpiece Analysis) เปรียบเทียบผลกระทบของภูมิทัศน์ดิจิทัลที่มีต่อผลการเลือกตั้งจริง พร้อมเจาะลึกพฤติกรรมผู้เสียภาษีและพิมพ์เขียวกลยุทธ์สู่ชัยชนะปี 2030
         </p>
     </header>
 
-    <section class="exec-summary-box">
-        <h2>Executive Summary</h2>
-        <div class="exec-summary-text">
-            ข้อมูลล่าสุด (Live Results) ยืนยันสภาวะ <strong>"สองนคราดิจิทัล" (Digital Duality)</strong> อย่างสมบูรณ์แบบ พรรคประชาชนชนะในโลกออนไลน์และบัญชีรายชื่อ (27 ที่นั่ง) แต่พรรคภูมิใจไทยกวาดที่นั่ง สส. เขตไปแบบถล่มทลาย (178 ที่นั่ง) สะท้อนถึงความเหลื่อมล้ำระหว่าง "กระแส" และ "เครือข่าย" ที่ชัดเจนที่สุดในประวัติศาสตร์
+    <section class="section-box bg-dark content-padding">
+        <span class="section-tag">Executive Summary</span>
+        <div class="exec-text">
+            <p>
+                ข้อมูลล่าสุด (Live Results) ยืนยันสภาวะ <strong>"สองนคราดิจิทัล" (Digital Duality)</strong> อย่างสมบูรณ์แบบ พรรคประชาชน (People's Party) ชนะในโลกออนไลน์และระบบบัญชีรายชื่อ (27 ที่นั่ง) ด้วยยุทธศาสตร์ Viral Marketing แต่พรรคภูมิใจไทย (Bhumjaithai) กวาดที่นั่ง สส. เขตไปแบบถล่มทลาย (178 ที่นั่ง) ผ่านเครือข่ายอุปถัมภ์ที่เข้มแข็ง
+            </p>
+            <p>
+                นี่คือบทพิสูจน์ทางรัฐศาสตร์ที่ชัดเจนที่สุดในประวัติศาสตร์ไทยว่า <strong>"กระแส (Trend)"</strong> และ <strong>"เครือข่าย (Network)"</strong> ทำงานแยกขาดจากกันอย่างสิ้นเชิงในภูมิศาสตร์การเมืองปัจจุบัน
+            </p>
         </div>
+
         <div class="motto-banner">
             “Viral is Vanity, Votes are Sanity. — กระแสคือมายา คะแนนเสียงคือของจริง”
         </div>
+
+        <div class="grid-3" style="margin-top: 50px;">
+            <div class="persona-card" style="background: var(--party-pp);">
+                <h3>The Social Kings</h3>
+                <p><strong>Dominance:</strong> ครองส่วนแบ่งหน้าจอ TikTok 45.2% และชนะขาดในเขตเศรษฐกิจที่เสียภาษีสูง (กทม. & EEC)</p>
+                <p style="margin-top:15px; font-size:13px; opacity:0.8;"><strong>Strategy:</strong> Structural Reform, Transparency, Taxpayer Rights</p>
+            </div>
+            
+            <div class="persona-card" style="background: var(--party-bjt);">
+                <h3>The Ground Masters</h3>
+                <p><strong>Dominance:</strong> ครองที่นั่ง สส. เขต 178 ที่นั่ง สูงสุดในประเทศ โดยเฉพาะภาคอีสานและภาคกลางตอนบน</p>
+                <p style="margin-top:15px; font-size:13px; opacity:0.8;"><strong>Strategy:</strong> Local Network, Patronage System, Tangible Benefits</p>
+            </div>
+            
+            <div class="persona-card" style="background: var(--party-kt);">
+                <h3>The Silent Force</h3>
+                <p><strong>Dominance:</strong> ครองใจ "บ้านใหญ่" กวาด 59 ที่นั่ง เงียบๆ โดยที่โพลและโซเชียลมีเดียจับสัญญาณไม่ได้</p>
+                <p style="margin-top:15px; font-size:13px; opacity:0.8;"><strong>Strategy:</strong> Deep Offline Connection, Micro-Targeting</p>
+            </div>
+        </div>
     </section>
 
-    <section class="content-section">
-        <h2 class="section-heading">1. The Digital Foundation & Regional Reach</h2>
-        <p>โครงสร้างพื้นฐานดิจิทัลของไทยมีความครอบคลุมสูง แต่ "ความเข้มข้น" ของการใช้งานยังกระจุกตัว ซึ่งส่งผลต่อการรับรู้ข่าวสารทางการเมือง</p>
+    <section class="section-box content-padding">
+        <span class="section-tag">01. Infrastructure & Awareness</span>
+        <h2 class="section-heading">โครงสร้างพื้นฐานดิจิทัลและขอบเขตการรับรู้</h2>
+        <p style="max-width: 800px; margin-bottom: 40px;">
+            แม้ประเทศไทยจะมีอัตราการเข้าถึงอินเทอร์เน็ตที่สูงมาก แต่ "ความเข้มข้น" ของการใช้งานเพื่อการมีส่วนร่วมทางการเมืองยังคงกระจุกตัว ซึ่งส่งผลโดยตรงต่อการแปลงกระแส (Conversion Rate) ให้เป็นคะแนนเสียง
+        </p>
         
         <div class="grid-3">
             <div class="stat-card">
-                <div class="stat-label">National Internet Penetration</div>
+                <div class="stat-label">Internet Penetration</div>
                 <div class="stat-big">94.7%</div>
-                <div class="stat-desc">คนไทยเข้าถึงอินเทอร์เน็ตได้เกือบสมบูรณ์</div>
+                <div class="stat-desc">ประชากรไทยเข้าถึงอินเทอร์เน็ตได้เกือบสมบูรณ์ (NSO 2026)</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">BKK & Vicinity Dominance</div>
+                <div class="stat-label">BKK Digital Density</div>
                 <div class="stat-big">20%</div>
-                <div class="stat-desc">ของประชากรดิจิทัลทั้งประเทศ อยู่ใน กทม. และปริมณฑล</div>
+                <div class="stat-desc">ของประชากรดิจิทัลทั้งประเทศ กระจุกตัวอยู่ใน กทม. และปริมณฑล</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Avg. TikTok Usage</div>
@@ -313,196 +677,349 @@
             </div>
         </div>
 
-        <div class="insight-highlight">
-            <h4>Strategic Insight: The Trend Setter</h4>
-            <p>กรุงเทพฯ (9.05%) ทำหน้าที่เป็น <strong>"ผู้กำหนดเทรนด์"</strong> แต่จังหวัดหัวเมืองใหญ่ (Regional Hubs) อย่างโคราช (3.76%), เชียงใหม่ (2.67%), และชลบุรี (2.62%) คือพื้นที่จริงที่ตัดสินชัยชนะในระดับภูมิภาค</p>
+        <div class="insight-box green">
+            <span class="insight-title">Strategic Insight: The Trend Setter vs. The Vote Getter</span>
+            <p>
+                กรุงเทพฯ (สัดส่วน 9.05%) ทำหน้าที่เป็น <strong>"ผู้กำหนดเทรนด์ (Trend Setter)"</strong> บนโลกออนไลน์ แต่จังหวัดหัวเมืองใหญ่อย่าง นครราชสีมา (3.76%), เชียงใหม่ (2.67%), และชลบุรี (2.62%) คือพื้นที่จริงที่ตัดสินชัยชนะในระดับภูมิภาค การทำแคมเปญจึงต้องแยกขาดระหว่าง "Content เพื่อสร้างกระแส" และ "Action เพื่อปิดการขาย"
+            </p>
         </div>
     </section>
 
-    <section class="content-section">
-        <h2 class="section-heading">2. The 3-Dimensional Matrix (Reality Check)</h2>
-        <p>เปรียบเทียบข้อมูลจริง (Actual Seats) จาก Live Dashboard กับ Social Listening และผลโพล แสดงให้เห็นความแม่นยำและความคลาดเคลื่อนในแต่ละมิติ</p>
+    <section class="section-box bg-light content-padding">
+        <span class="section-tag">02. The 3-Dimensional Matrix</span>
+        <h2 class="section-heading">Reality Check: เปรียบเทียบสนามจริง vs. โลกโซเชียล</h2>
+        
+        <p style="margin-bottom: 30px;">
+            ตารางเปรียบเทียบข้อมูลจริง (Actual Seats) จาก Live Dashboard เทียบกับข้อมูล Social Listening และผลโพล แสดงให้เห็นความแม่นยำและความคลาดเคลื่อนในแต่ละมิติ
+        </p>
 
-        <table class="strategic-table">
-            <thead>
-                <tr>
-                    <th style="width: 30%;">Political Party</th>
-                    <th style="width: 20%;">Constituency Seats<br><small style="font-weight:normal; color:#888;">สส. เขต (สนามจริง)</small></th>
-                    <th style="width: 20%;">Party List Seats<br><small style="font-weight:normal; color:#888;">บัญชีรายชื่อ (วัดกระแส)</small></th>
-                    <th style="width: 15%;">Social Listening<br><small style="font-weight:normal; color:#888;">ความนิยมออนไลน์</small></th>
-                    <th style="width: 15%;">Poll Avg.<br><small style="font-weight:normal; color:#888;">(NIDA/Dusit)</small></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><strong>Bhumjaithai (ภูมิใจไทย)</strong><br><small style="color:#666">The Ground Master</small></td>
-                    <td><span class="status-badge" style="background:var(--party-bjt);">178</span></td>
-                    <td>20</td>
-                    <td>23.9%</td>
-                    <td>20.8%</td>
-                </tr>
-                <tr>
-                    <td><strong>People's Party (ประชาชน)</strong><br><small style="color:#666">The Social King</small></td>
-                    <td><span class="status-badge" style="background:var(--party-pp);">70</span></td>
-                    <td><strong>27</strong></td>
-                    <td><strong>30.6%</strong></td>
-                    <td><strong>35.1%</strong></td>
-                </tr>
-                <tr>
-                    <td><strong>Pheu Thai (เพื่อไทย)</strong><br><small style="color:#666">The Balanced Player</small></td>
-                    <td><span class="status-badge" style="background:var(--party-pt);">67</span></td>
-                    <td>19</td>
-                    <td>16.8%</td>
-                    <td>19.2%</td>
-                </tr>
-                <tr>
-                    <td><strong>Kla Tham (กล้าธรรม)</strong><br><small style="color:#666">The Silent Force</small></td>
-                    <td><span class="status-badge" style="background:var(--party-kt);">59</span></td>
-                    <td>2</td>
-                    <td>9.0%</td>
-                    <td>2.3%</td>
-                </tr>
-                 <tr>
-                    <td><strong>Democrat (ประชาธิปัตย์)</strong></td>
-                    <td><span class="status-badge" style="background:var(--party-dem);">11</span></td>
-                    <td>10</td>
-                    <td>10.3%</td>
-                    <td>13.2%</td>
-                </tr>
-            </tbody>
-        </table>
-
-        <div class="motto-banner" style="background:#f9f9f9; border-color:var(--mck-blue); color:var(--mck-blue);">
-            "Polls tell you what people think. Seats tell you who people know."<br>
-            <small>— โพลบอกความคิด แต่เก้าอี้บอกเครือข่าย</small>
+        <div class="table-responsive">
+            <table class="master-table">
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Political Party</th>
+                        <th style="width: 20%;">Constituency Seats<br><small style="font-weight:normal; opacity:0.8;">สส. เขต (สนามจริง)</small></th>
+                        <th style="width: 20%;">Party List Seats<br><small style="font-weight:normal; opacity:0.8;">บัญชีรายชื่อ (วัดกระแส)</small></th>
+                        <th style="width: 15%;">Social Listening<br><small style="font-weight:normal; opacity:0.8;">Share of Voice</small></th>
+                        <th style="width: 20%;">Poll Average<br><small style="font-weight:normal; opacity:0.8;">(NIDA/Suan Dusit)</small></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>ภูมิใจไทย (BJT)</strong><br>
+                            <span style="font-size:12px; color:var(--text-muted);">The Ground Master</span>
+                        </td>
+                        <td><span class="status-badge" style="background:var(--party-bjt);">178</span></td>
+                        <td>20</td>
+                        <td>23.9%</td>
+                        <td>20.8%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>ประชาชน (PP)</strong><br>
+                            <span style="font-size:12px; color:var(--text-muted);">The Social King</span>
+                        </td>
+                        <td><span class="status-badge" style="background:var(--party-pp);">70</span></td>
+                        <td><span style="color:var(--party-pp); font-weight:bold;">27</span></td>
+                        <td><span style="color:var(--party-pp); font-weight:bold;">30.6%</span></td>
+                        <td><span style="color:var(--party-pp); font-weight:bold;">35.1%</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>เพื่อไทย (PT)</strong><br>
+                            <span style="font-size:12px; color:var(--text-muted);">The Balanced Player</span>
+                        </td>
+                        <td><span class="status-badge" style="background:var(--party-pt);">67</span></td>
+                        <td>19</td>
+                        <td>16.8%</td>
+                        <td>19.2%</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>กล้าธรรม (KT)</strong><br>
+                            <span style="font-size:12px; color:var(--text-muted);">The Silent Force</span>
+                        </td>
+                        <td><span class="status-badge" style="background:var(--party-kt);">59</span></td>
+                        <td>2</td>
+                        <td>9.0%</td>
+                        <td>2.3%</td>
+                    </tr>
+                     <tr>
+                        <td>
+                            <strong>ประชาธิปัตย์ (DEM)</strong><br>
+                            <span style="font-size:12px; color:var(--text-muted);">The Old Guard</span>
+                        </td>
+                        <td><span class="status-badge" style="background:var(--party-dem);">11</span></td>
+                        <td>10</td>
+                        <td>10.3%</td>
+                        <td>13.2%</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
-    <section class="content-section">
-        <h2 class="section-heading">3. Viral doesn't mean Victory: The Conversion Illusion</h2>
+    <section class="section-box content-padding">
+        <span class="section-tag">03. The Economic Mandate</span>
+        <h2 class="section-heading">ฐานภาษีและพฤติกรรมการใช้จ่าย: ใครครองใจ "ผู้จ่ายภาษี"?</h2>
+        
         <div class="grid-2">
-            <div>
-                <h3>The TikTok Paradox</h3>
-                <p>พรรคประชาชนครองหน้าจอ TikTok (45.2% Share of Voice) และชนะในระบบบัญชีรายชื่อ (27 ที่นั่ง) ซึ่งสะท้อนความนิยมระดับประเทศ (Popularity) ได้แม่นยำ</p>
-                <p>แต่เมื่อลงสู่สนาม <strong>"สส. เขต"</strong> กลับพ่ายแพ้ให้กับพรรคภูมิใจไทยที่มี Share of Voice น้อยกว่าอย่างขาดลอย (70 vs 178)</p>
-                
-                <div class="bar-chart-container">
-                    <div class="bar-row">
-                        <div class="bar-header"><span>People's Party (TikTok Dominance)</span> <span>45.2%</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 45.2%; background: var(--party-pp);"></div></div>
-                    </div>
-                    <div class="bar-row">
-                        <div class="bar-header"><span>Bhumjaithai (Constituency Win)</span> <span>178 Seats</span></div>
-                        <div class="bar-track"><div class="bar-fill" style="width: 90%; background: var(--party-bjt);"></div></div>
-                    </div>
+            <div class="donut-container">
+                <div class="donut-chart">
+                    <span class="donut-text">65%</span>
+                </div>
+                <div class="donut-label">
+                    <h3 style="margin:0 0 10px 0; color:var(--mck-blue);">Tax Revenue Dominance</h3>
+                    <p style="margin:0; font-size:14px; line-height:1.6;">
+                        กรุงเทพฯ จังหวัดเดียวเสียภาษีสูงถึง 65% ของประเทศ และเลือกพรรคประชาชนแบบแลนด์สไลด์ (33 เขต) สะท้อนถึงความต้องการการเปลี่ยนแปลงเชิงโครงสร้าง
+                    </p>
                 </div>
             </div>
-            <div>
-                <h3>Key Mechanisms</h3>
-                <ul style="list-style: none; padding: 0;">
-                    <li style="margin-bottom: 20px;">
-                        <strong style="color:var(--mck-blue)">The Split-Ticket Voting:</strong> ข้อมูลยืนยันพฤติกรรม "รักพี่เสียดายน้อง" ประชาชนเลือกพรรคประชาชนในบัตรบัญชีรายชื่อ (Viral Effect) แต่เลือกภูมิใจไทย/กล้าธรรม ในบัตรเขต (Local Relationship)
+
+            <div class="insight-box" style="margin-top:0;">
+                <span class="insight-title">Core Driver: มวลชนผู้เสียภาษี (Taxpayer Persona)</span>
+                <ul style="padding-left: 20px; font-size: 14px; margin: 0;">
+                    <li style="margin-bottom: 15px;">
+                        <strong>ปฏิรูปประกันสังคม (Social Security):</strong> นโยบายดึงกองทุนคืนสู่มือมืออาชีพ ครองใจมนุษย์เงินเดือน ม.33 อย่างเบ็ดเสร็จ
                     </li>
-                    <li style="margin-bottom: 20px;">
-                        <strong style="color:var(--mck-blue)">UGC Army vs. Sniper Strategy:</strong> พรรคประชาชนใช้กลยุทธ์ปูพรมทั่วประเทศ (Carpet Bombing) แต่พรรคภูมิใจไทยใช้ "การยิงโฆษณาเจาะจงพื้นที่" (Hyper-local Targeting)
+                    <li style="margin-bottom: 15px;">
+                        <strong>Tax Accountability:</strong> กลุ่มคนในเขตเศรษฐกิจต้องการการตรวจสอบงบประมาณผ่านเทคโนโลยี (Open Data)
                     </li>
                     <li>
-                        <strong style="color:var(--mck-blue)">Echo Chamber:</strong> ผู้ใช้งานออนไลน์เห็นแต่พรรคที่ตนเชียร์ จนเกิดภาพลวงตา (Illusion) ว่าจะชนะถล่มทลายทั้งสองระบบ
+                        <strong>VAT Power:</strong> เขต BKK, ปริมณฑล และ EEC มีสัดส่วนการใช้จ่าย (VAT) รวมกันกว่า 80% ซึ่งเป็นฐานคะแนนหลักของระบบบัญชีรายชื่อ
                     </li>
                 </ul>
             </div>
         </div>
+
+        <h3 style="margin-top: 40px; font-size: 18px; color: var(--text-light);">Top Economic Zones & Winning Parties</h3>
+        <div class="table-responsive">
+            <table class="master-table">
+                <thead>
+                    <tr>
+                        <th>Province / Economic Zone</th>
+                        <th>Tax Contribution (%)</th>
+                        <th>Spending / VAT Share (%)</th>
+                        <th>Dominant Party (2026)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>1. กรุงเทพมหานคร</strong></td>
+                        <td><strong>65.00%</strong></td>
+                        <td>66.06%</td>
+                        <td><span class="status-badge" style="background:var(--party-pp);">People's Party</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>2. ชลบุรี (EEC)</strong></td>
+                        <td>3.50%</td>
+                        <td>3.56%</td>
+                        <td><span class="status-badge" style="background:var(--party-pp);">People's Party</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>3. ระยอง (EEC)</strong></td>
+                        <td>3.20%</td>
+                        <td>3.25%</td>
+                        <td><span class="status-badge" style="background:var(--party-pp);">People's Party</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>4. สมุทรปราการ</strong></td>
+                        <td>2.80%</td>
+                        <td>2.85%</td>
+                        <td><span class="status-badge" style="background:var(--party-pp);">People's Party</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>5. นครราชสีมา (Hub)</strong></td>
+                        <td>0.90%</td>
+                        <td>0.91%</td>
+                        <td><span class="status-badge" style="background:var(--party-bjt);">Bhumjaithai</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 
-    <div class="quote-large">
-        "1,000,000 Views on TikTok yields unpredictable votes.<br>But 5,000 handshakes in a village guarantees a District Seat."
-        <span>— The Arithmetic of Thai Elections 2026</span>
-    </div>
-
-    <section class="content-section" style="background-color: #fafbfe;">
-        <h2 class="section-heading" style="color:var(--party-kt);">4. Case Study: The Kla Tham Phenomenon<br><small style="font-size: 18px; color: #666; font-weight: normal;">(เมื่อเครือข่ายอุปถัมภ์ชนะบิ๊กดาต้าอย่างราบคาบ)</small></h2>
+    <section class="section-box bg-light content-padding">
+        <span class="section-tag">04. The Algorithm Paradox</span>
+        <h2 class="section-heading">TikTok Paradox: ทำไมยอดไลก์หมื่นแสน สู้การจับมือหนึ่งครั้งไม่ได้?</h2>
         
-        <p><strong>พรรคกล้าธรรม</strong> คือปรากฏการณ์ที่น่าตกใจที่สุด ข้อมูลจริงระบุว่ากวาดไปถึง <strong>59 ที่นั่ง</strong> (จากโพลเพียง 2.3%) นี่คือ <strong>Disparity Gap</strong> ที่กว้างที่สุด ชี้ให้เห็นว่า "โลกออฟไลน์" ยังมีอิทธิพลมหาศาล</p>
-
-        <div class="network-graphic">
-            <div class="node">
-                <div class="node-circle">บ้านใหญ่</div>
-                <div style="font-weight: bold; color: var(--mck-blue);">Provincial Patrons</div>
-                <div style="font-size: 12px; color: #666;">ผู้มากบารมีระดับจังหวัด / อบจ.</div>
-            </div>
-            <div class="node-arrow">➔</div>
-            <div class="node">
-                <div class="node-circle" style="width: 70px; height: 70px; background: #55a879;">บ้านเล็ก</div>
-                <div style="font-weight: bold; color: var(--mck-blue);">Local Leaders</div>
-                <div style="font-size: 12px; color: #666;">นายก อบต. / กำนัน / ผู้ใหญ่บ้าน</div>
-            </div>
-            <div class="node-arrow">➔</div>
-            <div class="node">
-                <div class="node-circle" style="width: 60px; height: 60px; background: #7bcba0;">ชาวบ้าน</div>
-                <div style="font-weight: bold; color: var(--mck-blue);">Loyal Voters</div>
-                <div style="font-size: 12px; color: #666;">ความผูกพันและบุญคุณส่วนตัว</div>
-            </div>
-        </div>
-
-        <div class="grid-2" style="margin-top: 30px;">
-            <div class="insight-highlight" style="margin: 0; background: #fff; border-left-color: var(--party-kt);">
-                <h4 style="color: var(--party-kt);">Micro-Targeting over Mass Media</h4>
-                <p>กลุ่มผู้โหวต 59 เขตนี้ เป็นกลุ่มที่พึ่งพา <strong>"นักการเมืองท้องถิ่น"</strong> ในชีวิตประจำวัน (งานบวช งานศพ การแก้ปัญหาภัยแล้ง) การตัดสินใจจึงมาจาก "ความเกรงใจ" และ "ผลประโยชน์จับต้องได้" มากกว่านโยบายบนหน้าจอ</p>
-            </div>
-            <div class="insight-highlight" style="margin: 0; background: #fff; border-left-color: var(--party-kt);">
-                <h4 style="color: var(--party-kt);">The Offline Algorithm</h4>
-                <p>พรรคกล้าธรรมใช้ <strong>"อัลกอริทึมออฟไลน์"</strong> (Door-to-Door & Patronage Network) ที่มี Conversion Rate เกือบ 100% ซึ่งโพลส่วนกลาง (ที่สุ่มโทรศัพท์) ไม่สามารถเจาะเข้าถึงเครือข่ายนี้ได้เลย</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="content-section" style="border-bottom: none;">
-        <h2 class="section-heading">5. Strategic Conclusion</h2>
-        <div class="grid-3">
-            <div class="insight-highlight" style="margin:0; background:#e3f2fd; border-left-color:var(--mck-blue);">
-                <h4 style="color:var(--mck-blue);">The Information Gap</h4>
-                <p>พรรคกล้าธรรม (59 ที่นั่ง) และภูมิใจไทย (178 ที่นั่ง) พิสูจน์ว่า "การไร้ตัวตนในโซเชียล" ไม่ได้แปลว่า "ไร้คะแนน" ในวัฒนธรรมการเมืองไทยแบบผสมผสาน</p>
-            </div>
-            <div class="insight-highlight" style="margin:0; background:#ffebee; border-left-color:var(--party-pt);">
-                <h4 style="color:var(--party-pt);">Resilience of the Old Guard</h4>
-                <p>เพื่อไทย (86 ที่นั่ง) ยังรักษาฐานที่มั่นได้ดี แสดงให้เห็นว่าแบรนด์พรรคเก่าแก่ยังมีมนต์ขลังในกลุ่มฐานเสียงดั้งเดิม แม้กระแสออนไลน์จะลดลง</p>
-            </div>
-            <div class="insight-highlight" style="margin:0; background:#fff3e0; border-left-color:var(--party-pp);">
-                <h4 style="color:var(--party-pp);">The Future is Hybrid</h4>
-                <p>ผู้ชนะในอนาคต คือผู้ที่สามารถเปลี่ยน "ยอดไลก์ในอากาศ" ให้กลายเป็น "หัวคะแนนธรรมชาติ" ที่จัดตั้งลงเดินเคาะประตูบ้านได้จริง</p>
-            </div>
-        </div>
-    </section>
-
-    <footer class="footer">
         <div class="grid-2">
             <div>
-                <strong>Data Sources & References:</strong>
+                <p style="font-size: 16px; margin-bottom: 30px;">
+                    พรรคประชาชนครองหน้าจอ TikTok ด้วย Share of Voice ถึง 45.2% แต่เมื่อลงสู่สนาม <strong>"สส. เขต"</strong> กลับพ่ายแพ้ให้กับพรรคภูมิใจไทยที่มี Share of Voice น้อยกว่าอย่างขาดลอย (70 vs 178 ที่นั่ง)
+                </p>
+                
+                <div class="bar-group">
+                    <div class="bar-header">
+                        <span>People's Party (TikTok Share of Voice)</span>
+                        <span>45.2%</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 45.2%; background: var(--party-pp);"></div>
+                    </div>
+                </div>
+
+                <div class="bar-group">
+                    <div class="bar-header">
+                        <span>Bhumjaithai (Actual Constituency Seats)</span>
+                        <span>178 Seats (44.5%)</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width: 44.5%; background: var(--party-bjt);"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div style="background: white; padding: 30px; border-radius: 8px; border: 1px solid #eee;">
+                    <h3 style="margin-top:0; color:var(--mck-blue); font-size:18px;">Key Mechanisms of Failure</h3>
+                    <ul style="padding-left: 20px; color: var(--text-light);">
+                        <li style="margin-bottom: 15px;">
+                            <strong>Split-Ticket Voting:</strong> ปรากฏการณ์ "รักพี่เสียดายน้อง" ประชาชนเลือกพรรคที่ชอบในบัญชีรายชื่อ (Viral Effect) แต่เลือกคนที่มีผลงานและความผูกพันในบัตรเขต (Local Relationship)
+                        </li>
+                        <li style="margin-bottom: 15px;">
+                            <strong>UGC vs. Sniper Strategy:</strong> พรรคประชาชนใช้กลยุทธ์ปูพรมทั่วประเทศ (Carpet Bombing) แต่ภูมิใจไทยใช้การยิงโฆษณาเจาะจงพื้นที่ (Hyper-local Targeting) ที่แม่นยำกว่า
+                        </li>
+                        <li>
+                            <strong>Echo Chamber Effect:</strong> ภาพลวงตาในโลกออนไลน์ทำให้ผู้สนับสนุนมองข้ามความแข็งแกร่งของเครือข่าย "บ้านใหญ่" ในต่างจังหวัด
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section-box content-padding">
+        <span class="section-tag">05. Ground Reality Case Study</span>
+        <h2 class="section-heading" style="color:var(--party-kt);">The Kla Tham Phenomenon: เมื่อเครือข่ายอุปถัมภ์ชนะบิ๊กดาต้า</h2>
+        
+        <p style="max-width: 800px;">
+            พรรคกล้าธรรมกวาดไปถึง <strong>59 ที่นั่ง</strong> จากผลโพลเพียง 2.3% นี่คือชัยชนะของ <strong>"อัลกอริทึมออฟไลน์"</strong> ที่ใช้มนุษย์เป็น Node ในการส่งต่อคะแนนเสียง แทนการใช้อัลกอริทึมของแพลตฟอร์ม
+        </p>
+
+        <div class="network-container">
+            <div class="net-node">
+                <div class="node-circle" style="background: var(--party-kt);">บ้านใหญ่</div>
+                <strong style="font-size:14px; color:var(--mck-blue);">Provincial Patrons</strong>
+                <span style="font-size:12px; color:#888;">บารมีระดับจังหวัด / อบจ.</span>
+            </div>
+            
+            <div class="net-arrow">➔</div>
+            
+            <div class="net-node">
+                <div class="node-circle" style="background: #55a879; width:80px; height:80px;">บ้านเล็ก</div>
+                <strong style="font-size:14px; color:var(--mck-blue);">Local Leaders</strong>
+                <span style="font-size:12px; color:#888;">นายก อบต. / กำนัน</span>
+            </div>
+            
+            <div class="net-arrow">➔</div>
+            
+            <div class="net-node">
+                <div class="node-circle" style="background: #7bcba0; width:70px; height:70px;">ชาวบ้าน</div>
+                <strong style="font-size:14px; color:var(--mck-blue);">Loyal Voters</strong>
+                <span style="font-size:12px; color:#888;">ระบบอุปถัมภ์ / บุญคุณ</span>
+            </div>
+        </div>
+
+        <div class="insight-box green">
+            <span class="insight-title">The Offline Algorithm Success</span>
+            <p style="margin:0;">
+                พรรคกล้าธรรมใช้กลยุทธ์เคาะประตูบ้านแบบ Door-to-Door ผ่านเครือข่ายผู้นำชุมชน ซึ่งมี <strong>Conversion Rate เกือบ 100%</strong> ในขณะที่การยิงโฆษณาออนไลน์มี Conversion Rate ต่ำกว่า 1-2% ในกลุ่มเป้าหมายเดียวกัน นี่คือเหตุผลที่ "โพลส่วนกลาง" ไม่สามารถเจาะเข้าถึงฐานเสียงนี้ได้
+            </p>
+        </div>
+    </section>
+
+    <section class="section-box bg-dark content-padding">
+        <span class="section-tag">06. Forward Intelligence: Winning Seats 2030</span>
+        <h2 class="section-heading" style="color:var(--mck-cyan);">Hybrid Blueprint: พิมพ์เขียวสู่ชัยชนะอย่างครอบคลุม</h2>
+        <p style="color: rgba(255,255,255,0.8); max-width: 900px;">
+            หากต้องการชนะแบบเบ็ดเสร็จ (Landslide) ในการเลือกตั้งรอบหน้า พรรคการเมืองต้องก้าวข้าม "ความสุดโต่ง" ในมิติด้านเดียว และหันมาใช้กลยุทธ์ผสมผสาน <strong>(The Master Mix)</strong> ดังนี้:
+        </p>
+
+        <div class="strategy-container">
+            <div class="strat-card">
+                <span class="strat-icon">📱</span>
+                <h3 style="color:var(--mck-blue); font-size: 20px;">Campaigning (Viral)</h3>
+                <p style="color: var(--text-light); font-size: 14px;">
+                    <strong>Objective:</strong> สร้างความนิยมระดับชาติ (National Popularity)<br><br>
+                    ใช้คอนเทนต์ที่ "กระตุกอารมณ์" และ "ตรงประเด็นภาษี" เพื่อโกยคะแนนบัญชีรายชื่อ (Party List) จากกลุ่ม Swing Voter และคนรุ่นใหม่
+                </p>
+            </div>
+            
+            <div class="strat-card gold-border">
+                <span class="strat-icon">🤝</span>
+                <h3 style="color:var(--mck-blue); font-size: 20px;">Base Building (Network)</h3>
+                <p style="color: var(--text-light); font-size: 14px;">
+                    <strong>Objective:</strong> ปิดการขายในระดับเขต (Constituency Win)<br><br>
+                    เปลี่ยนยอดไลก์ให้เป็น <strong>"หัวคะแนนธรรมชาติ"</strong> ที่มีโครงสร้างองค์กรรองรับ ลงไปจับมือชาวบ้านและแก้ปัญหาหน้างานจริง ไม่ใช่แค่อาสาสมัครออนไลน์
+                </p>
+            </div>
+            
+            <div class="strat-card">
+                <span class="strat-icon">📊</span>
+                <h3 style="color:var(--mck-blue); font-size: 20px;">Policy Mix (Hybrid)</h3>
+                <p style="color: var(--text-light); font-size: 14px;">
+                    <strong>Objective:</strong> รักษาฐานเสียงระยะยาว (Retention)<br><br>
+                    ผสานนโยบาย "โครงสร้างเพื่อคนเมือง" (ประกันสังคม/ภาษี) เข้ากับนโยบาย "เชิงรุกเพื่อปากท้อง" (ประกันรายได้/เขตเศรษฐกิจพิเศษ) สำหรับต่างจังหวัด
+                </p>
+            </div>
+        </div>
+
+        <div style="margin-top: 50px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px;">
+            <h4 style="color: var(--mck-cyan); text-transform: uppercase; font-size: 14px; margin-bottom: 20px;">Strategic Recommendations for Key Parties</h4>
+            <div class="grid-3">
+                <div>
+                    <strong style="color: var(--party-pp); display:block; margin-bottom:10px;">For People's Party</strong>
+                    <p style="font-size:13px; color:rgba(255,255,255,0.7);">ต้องสร้าง "ตัวตนทางกายภาพ" ในต่างจังหวัด ลดการพึ่งพาแพลตฟอร์ม และสร้างระบบสมาชิกที่จับต้องได้</p>
+                </div>
+                <div>
+                    <strong style="color: var(--party-bjt); display:block; margin-bottom:10px;">For Bhumjaithai / Kla Tham</strong>
+                    <p style="font-size:13px; color:rgba(255,255,255,0.7);">ต้องเพิ่ม "Digital Identity" และความโปร่งใส (Transparency) เพื่อลดแรงต้านจากกลุ่มผู้เสียภาษีและชนชั้นกลางในเมือง</p>
+                </div>
+                <div>
+                    <strong style="color: var(--party-pt); display:block; margin-bottom:10px;">For Pheu Thai</strong>
+                    <p style="font-size:13px; color:rgba(255,255,255,0.7);">ต้อง Re-brand นโยบายให้ "ทันสมัย" และ "เซ็กซี่" ขึ้น เพื่อทวงคืนฐานเสียง Urban ที่ไหลไปหาพรรคประชาชน</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-cols">
+            <div>
+                <span class="footer-title">Data Intelligence Sources</span>
                 <ul>
                     <li>Live Election Results: Real-time Dashboard (Feb 8, 2026)</li>
-                    <li>Digital Statistics: NSO & Digital 2026 (We Are Social/Meltwater)</li>
-                    <li>Social Listening Metrics: Zocial Eye / Dataxet (2025-2026)</li>
-                    <li>Public Opinion Polls: NIDA Poll / Suan Dusit Poll</li>
+                    <li>Revenue Department Data: Tax & VAT Statistics (Fiscal Year 2025-2026)</li>
+                    <li>Digital 2026 Reports: We Are Social / Meltwater Analysis</li>
+                    <li>Social Listening Metrics: Zocial Eye / Dataxet (Campaign Period)</li>
+                    <li>Public Opinion Polls: NIDA Poll / Suan Dusit Poll (Final Curve)</li>
                 </ul>
             </div>
+            
             <div style="text-align: right;">
-                <strong>Report Contributors:</strong>
-                <div style="margin-top: 15px;">
-                    <span style="color: var(--mck-cyan); font-weight:bold; font-size:14px;">Lead Strategist & Intelligence:</span><br>
-                    <span style="color: #fff;">Khun Don Jirapatpong</span><br>
-                    <span style="font-size:11px; color:#8fa6b8;">(Strategic Direction, Live Data Provision, Key Concept "Viral vs Victory", "Kla Tham" Insight)</span>
+                <span class="footer-title">Masterpiece Contributors</span>
+                
+                <div style="margin-bottom: 25px;">
+                    <span style="color: var(--mck-cyan); font-weight:bold; font-size: 16px;">Lead Strategist</span><br>
+                    <span style="color: white; font-size: 20px;">Khun Don Jirapatpong</span><br>
+                    <span style="font-size: 12px; opacity: 0.7;">Strategic Direction, Live Data Provision, Key Concepts ("Viral vs Victory", "Taxpayer Mandate")</span>
                 </div>
-                <div style="margin-top: 15px;">
-                    <span style="color: var(--mck-cyan); font-weight:bold; font-size:14px;">Analysis & Visualization:</span><br>
-                    <span style="color: #fff;">Gemini AI Collaborative Partner</span><br>
-                    <span style="font-size:11px; color:#8fa6b8;">(Data Synthesis, Report Design, Copywriting & HTML Generation)</span>
+                
+                <div>
+                    <span style="color: var(--mck-cyan); font-weight:bold; font-size: 16px;">Analytical Partner</span><br>
+                    <span style="color: white; font-size: 20px;">Gemini Adaptive AI</span><br>
+                    <span style="font-size: 12px; opacity: 0.7;">Data Synthesis, Strategic Visualization, HTML Masterpiece Design</span>
                 </div>
             </div>
         </div>
+        
         <div class="disclaimer">
-            <strong>DISCLAIMER:</strong> เนื้อหาในรายงานฉบับนี้จัดทำขึ้นเพื่อวัตถุประสงค์ในการวิเคราะห์เชิงกลยุทธ์และกรณีศึกษาทางรัฐศาสตร์เท่านั้น ข้อมูลทั้งหมดเป็นการประมวลผลจากสถิติและข้อมูลสาธารณะ ณ ช่วงเวลาที่จัดทำ เป็นเนื้อหาวิเคราะห์เท่านั้น ไม่ได้มีจุดประสงค์ให้ข้อมูลเท็จ หรือมุ่งหวังเพื่อประโยชน์อื่นใดนอกเหนือจากทางวิชาการและการศึกษา
+            <strong>DISCLAIMER:</strong> รายงานฉบับนี้จัดทำขึ้นเพื่อวัตถุประสงค์ในการวิเคราะห์เชิงกลยุทธ์และกรณีศึกษาทางรัฐศาสตร์เท่านั้น ข้อมูลทั้งหมดเป็นการประมวลผลจากสถิติและข้อมูลสาธารณะ ณ ช่วงเวลาที่จัดทำ เป็นเนื้อหาวิเคราะห์เท่านั้น ไม่ได้มีจุดประสงค์ให้ข้อมูลเท็จ หรือมุ่งหวังเพื่อประโยชน์อื่นใดนอกเหนือจากทางวิชาการและการศึกษา
         </div>
     </footer>
+
 </div>
 
 </body>
