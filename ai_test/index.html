@@ -7,28 +7,40 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
-        /* CSS เพิ่มเติมเพื่อให้ Video และ Canvas ซ้อนทับกันได้พอดี */
         .video-container {
             position: relative;
             width: 100%;
-            padding-top: 56.25%; /* อัตราส่วน 16:9 */
+            padding-top: 56.25%;
             background-color: #000;
             border-radius: 1rem;
             overflow: hidden;
         }
         #webcam, #output_canvas {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover;
-            transform: scaleX(-1); /* กลับด้านภาพให้เหมือนกระจก */
+            transform: scaleX(-1);
         }
-        #output_canvas {
-            pointer-events: none; /* ให้คลิกทะลุ Canvas ไปโดน Video ได้ */
-            z-index: 10; /* ให้ Canvas อยู่ด้านบนสุด */
+        #output_canvas { pointer-events: none; z-index: 10; }
+        .glow-border {
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3), inset 0 0 15px rgba(6, 182, 212, 0.1);
+            transition: box-shadow 0.3s ease;
         }
+        .video-container:hover .glow-border {
+             box-shadow: 0 0 25px rgba(6, 182, 212, 0.5), inset 0 0 20px rgba(6, 182, 212, 0.2);
+        }
+        /* Animation สำหรับ Log ใหม่ที่เด้งเข้ามา */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .log-entry { animation: slideIn 0.3s ease-out forwards; }
+        
+        /* ตกแต่ง Scrollbar สำหรับช่อง Log */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f2937; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #4b5563; }
     </style>
 </head>
 <body class="bg-gray-950 text-white min-h-screen p-4 md:p-8 font-sans bg-gradient-to-br from-gray-900 to-black">
@@ -39,7 +51,7 @@
                 <span class="material-icons text-4xl">back_hand</span>
                 AI Real-time Hand Motion Monitor
             </h1>
-            <p class="text-gray-400 mt-2">ตรวจจับท่าทางและการเคลื่อนไหวของมือแบบเรียลไทม์</p>
+            <p class="text-gray-400 mt-2">ระบบตรวจจับและบันทึกเหตุการณ์การเคลื่อนไหวแบบเรียลไทม์</p>
         </header>
         
         <div class="flex flex-col lg:flex-row gap-6">
@@ -48,7 +60,7 @@
                     <video id="webcam" autoplay playsinline></video>
                     <canvas id="output_canvas"></canvas>
                 </div>
-                <button id="enableWebcamButton" class="mt-6 w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex items-center justify-center gap-2 shadow-lg">
+                <button id="enableWebcamButton" class="mt-6 w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 flex items-center justify-center gap-2 shadow-lg">
                     <span class="material-icons animate-spin hidden" id="loadingIcon">sync</span>
                     <span id="buttonText">กำลังโหลด AI Model...</span>
                 </button>
@@ -60,204 +72,175 @@
                         <span class="material-icons">stacked_line_chart</span>
                         Real-time Monitor
                     </h2>
-                    
                     <div class="bg-gray-800/50 rounded-xl p-6 text-center mb-4 shadow-inner border border-gray-700/30">
-                        <p class="text-sm text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-center gap-1">
-                            <span class="material-icons text-base">swap_horiz</span>
-                            Motion Detection
-                        </p>
-                        <div id="swipeOutputContainer" class="h-16 flex items-center justify-center overflow-hidden">
-                            <p id="swipeOutput" class="text-4xl font-black text-white transition-all duration-300 transform">-</p>
+                        <p class="text-sm text-gray-400 mb-2 uppercase tracking-wider">Motion Detection</p>
+                        <div id="swipeOutputContainer" class="h-16 flex items-center justify-center">
+                            <p id="swipeOutput" class="text-4xl font-black text-white">-</p>
                         </div>
                     </div>
-
                     <div class="bg-gray-800/50 rounded-xl p-6 text-center shadow-inner border border-gray-700/30">
-                        <p class="text-sm text-gray-400 mb-2 uppercase tracking-wider flex items-center justify-center gap-1">
-                            <span class="material-icons text-base">fingerprint</span>
-                            Hand Gesture
-                        </p>
+                        <p class="text-sm text-gray-400 mb-2 uppercase tracking-wider">Hand Gesture</p>
                         <div class="h-12 flex items-center justify-center">
-                             <p id="gestureOutput" class="text-3xl font-bold text-green-400 transition-all duration-300">-</p>
+                             <p id="gestureOutput" class="text-3xl font-bold text-green-400">-</p>
                         </div>
                         <p id="confidenceOutput" class="text-xs text-gray-500 mt-2">Confidence: 0%</p>
                     </div>
                 </div>
-                
                 <div class="bg-gray-900/80 backdrop-blur-sm p-4 rounded-xl shadow text-center border border-gray-800/50">
                     <p class="text-gray-400 text-sm flex items-center justify-center gap-2">
                         <span class="relative flex h-3 w-3">
-                          <span id="statusDotPing" class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                          <span id="statusDot" class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                          <span id="statusDotPing" class="animate-ping absolute h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                          <span id="statusDot" class="relative rounded-full h-3 w-3 bg-red-500"></span>
                         </span>
-                        System Status: <span id="systemStatus" class="text-red-400 font-medium">Offline</span>
+                        System: <span id="systemStatus" class="text-red-400 font-medium">Offline</span>
                     </p>
                 </div>
             </div>
         </div>
+
+        <div class="mt-8 bg-gray-900/80 backdrop-blur-sm p-6 rounded-2xl shadow-xl border border-gray-800/50">
+            <div class="flex items-center justify-between border-b border-gray-800 pb-3 mb-4">
+                <h2 class="text-xl font-semibold text-cyan-400 flex items-center gap-2">
+                    <span class="material-icons">receipt_long</span>
+                    Activity Event Log
+                </h2>
+                <button onclick="clearLogs()" class="text-xs bg-gray-800 hover:bg-gray-700 text-gray-400 px-3 py-1 rounded transition-colors border border-gray-700">
+                    Clear Logs
+                </button>
+            </div>
+            
+            <div id="logContainer" class="h-64 overflow-y-auto pr-2 flex flex-col gap-2 font-mono text-sm">
+                <div class="text-center text-gray-600 my-auto">รอรับข้อมูลเหตุการณ์...</div>
+            </div>
+        </div>
+
     </div>
 
     <script type="module">
-        // นำเข้า Library ของ MediaPipe และฟังก์ชันวาดภาพ
-        import {
-            GestureRecognizer,
-            FilesetResolver,
-            DrawingUtils
-        } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
+        import { GestureRecognizer, FilesetResolver, DrawingUtils } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3";
 
-        // ประกาศตัวแปรหลัก
         let gestureRecognizer;
-        let runningMode = "VIDEO";
-        let enableWebcamButton = document.getElementById("enableWebcamButton");
-        let buttonText = document.getElementById("buttonText");
-        let loadingIcon = document.getElementById("loadingIcon");
         let webcamRunning = false;
         
-        // ตัวแปรสำหรับ Elements ต่างๆ ในหน้าเว็บ
         const video = document.getElementById("webcam");
         const canvasElement = document.getElementById("output_canvas");
         const canvasCtx = canvasElement.getContext("2d");
-        const gestureOutput = document.getElementById("gestureOutput");
-        const confidenceOutput = document.getElementById("confidenceOutput");
-        const swipeOutput = document.getElementById("swipeOutput");
-        const swipeOutputContainer = document.getElementById("swipeOutputContainer");
-        const systemStatus = document.getElementById("systemStatus");
-        const statusDot = document.getElementById("statusDot");
-        const statusDotPing = document.getElementById("statusDotPing");
+        const logContainer = document.getElementById("logContainer");
 
-        // ตัวแปรสำหรับ Logic การ Swipe
         let previousX = null;
         let swipeTimer = null;
-        let drawingUtils; // ตัวช่วยวาดภาพของ MediaPipe
-
-        // --- ฟังก์ชัน 1: เริ่มต้นโหลด AI Model ---
-        const createGestureRecognizer = async () => {
-            try {
-                // โหลดไฟล์ WASM ที่จำเป็น
-                const vision = await FilesetResolver.forVisionTasks(
-                    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm"
-                );
-                // สร้าง GestureRecognizer จากโมเดลที่โฮสต์ไว้
-                gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
-                    baseOptions: {
-                        modelAssetPath: "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task",
-                        delegate: "GPU" // ใช้ GPU ประมวลผลเพื่อความลื่นไหล
-                    },
-                    runningMode: runningMode,
-                    numHands: 1 // ตรวจจับทีละ 1 มือ
-                });
-                
-                // อัปเดตสถานะปุ่มเมื่อโมเดลพร้อม
-                buttonText.innerText = "คลิกเพื่อเปิดกล้องเริ่มใช้งาน";
-                loadingIcon.classList.add('hidden');
-                enableWebcamButton.disabled = false;
-                
-                // สร้าง DrawingUtils สำหรับวาดบน Canvas
-                drawingUtils = new DrawingUtils(canvasCtx);
-            } catch (error) {
-                console.error("Error loading model:", error);
-                buttonText.innerText = "เกิดข้อผิดพลาดในการโหลดโมเดล";
-            }
-        };
+        let drawingUtils;
         
-        // เริ่มโหลดโมเดลทันทีที่เปิดเว็บ
-        enableWebcamButton.disabled = true;
-        loadingIcon.classList.remove('hidden');
+        // ตัวแปรเก็บสถานะท่าทางก่อนหน้า เพื่อไม่ให้ Log ซ้ำซ้อน
+        let lastLoggedGesture = ""; 
+        let logCount = 0;
+
+        const createGestureRecognizer = async () => {
+            const vision = await FilesetResolver.forVisionTasks("https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.3/wasm");
+            gestureRecognizer = await GestureRecognizer.createFromOptions(vision, {
+                baseOptions: { modelAssetPath: "https://storage.googleapis.com/mediapipe-models/gesture_recognizer/gesture_recognizer/float16/1/gesture_recognizer.task", delegate: "GPU" },
+                runningMode: "VIDEO", numHands: 1
+            });
+            document.getElementById("buttonText").innerText = "คลิกเพื่อเปิดกล้องเริ่มใช้งาน";
+            document.getElementById("loadingIcon").classList.add('hidden');
+            document.getElementById("enableWebcamButton").disabled = false;
+            drawingUtils = new DrawingUtils(canvasCtx);
+        };
         createGestureRecognizer();
 
-        // --- ฟังก์ชัน 2: ควบคุมการเปิด/ปิดกล้อง ---
+        // --- ฟังก์ชันบันทึก Log ---
+        window.addLog = function(type, detail, colorClass) {
+            if (logCount === 0) logContainer.innerHTML = ""; // ลบข้อความ "รอรับข้อมูล"
+            
+            const now = new Date();
+            // สร้าง Timestamp แบบ HH:MM:SS.ms
+            const timeString = `${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}:${now.getSeconds().toString().padStart(2,'0')}.${now.getMilliseconds().toString().padStart(3,'0')}`;
+            
+            const logItem = document.createElement("div");
+            
+            // กำหนดสีแถบด้านซ้ายตามประเภท Event
+            let borderLeftColor = "border-gray-600";
+            if(type === 'MOTION') borderLeftColor = "border-cyan-500";
+            else if(type === 'GESTURE') borderLeftColor = "border-green-500";
+            else if(type === 'SYSTEM') borderLeftColor = "border-yellow-500";
+
+            logItem.className = `log-entry bg-gray-800/40 p-3 rounded-lg border-l-4 ${borderLeftColor} flex items-center gap-4 hover:bg-gray-800 transition-colors`;
+            
+            logItem.innerHTML = `
+                <span class="text-gray-500 w-24 shrink-0">${timeString}</span>
+                <span class="px-2 py-1 rounded text-xs font-bold bg-gray-900 ${colorClass} w-20 text-center shrink-0 border border-gray-700">${type}</span>
+                <span class="text-gray-200 truncate flex-1">${detail}</span>
+            `;
+            
+            // แทรก Log ใหม่ไว้บนสุด
+            logContainer.insertBefore(logItem, logContainer.firstChild);
+            logCount++;
+
+            // ป้องกันไม่ให้ Log ยาวเกินไป (เก็บแค่ 50 รายการล่าสุด)
+            if (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        };
+
+        // ฟังก์ชันล้าง Log (ผูกกับปุ่ม Clear Logs)
+        window.clearLogs = function() {
+            logContainer.innerHTML = '<div class="text-center text-gray-600 my-auto">รอรับข้อมูลเหตุการณ์...</div>';
+            logCount = 0;
+            lastLoggedGesture = "";
+            window.addLog("SYSTEM", "ล้างข้อมูล Log แล้ว", "text-yellow-400");
+        };
+
         function enableCam(event) {
             if (!gestureRecognizer) return;
+            const btn = document.getElementById("enableWebcamButton");
 
             if (webcamRunning === true) {
-                // ปิดกล้อง
                 webcamRunning = false;
-                buttonText.innerText = "คลิกเพื่อเปิดกล้องเริ่มใช้งาน";
-                enableWebcamButton.classList.remove('from-red-600', 'to-pink-600', 'hover:from-red-500', 'hover:to-pink-500');
-                enableWebcamButton.classList.add('from-cyan-600', 'to-blue-600', 'hover:from-cyan-500', 'hover:to-blue-500');
-                
-                // หยุด Stream และเคลียร์ Video/Canvas
-                const stream = video.srcObject;
-                if (stream) {
-                    const tracks = stream.getTracks();
-                    tracks.forEach(track => track.stop());
-                }
-                video.srcObject = null;
+                btn.classList.replace('from-red-600', 'from-cyan-600');
+                btn.classList.replace('to-pink-600', 'to-blue-600');
+                document.getElementById("buttonText").innerText = "คลิกเพื่อเปิดกล้องเริ่มใช้งาน";
+                video.srcObject.getTracks().forEach(track => track.stop());
                 canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-                
-                // อัปเดตสถานะระบบ
-                systemStatus.innerText = "Offline";
-                systemStatus.classList.replace('text-green-400', 'text-red-400');
-                statusDot.classList.replace('bg-green-500', 'bg-red-500');
-                statusDotPing.classList.replace('bg-green-400', 'bg-red-400');
-
+                document.getElementById("systemStatus").innerText = "Offline";
+                window.addLog("SYSTEM", "ปิดการทำงานของกล้อง", "text-yellow-400");
             } else {
-                // เปิดกล้อง
                 webcamRunning = true;
-                buttonText.innerText = "ปิดกล้อง";
-                enableWebcamButton.classList.remove('from-cyan-600', 'to-blue-600', 'hover:from-cyan-500', 'hover:to-blue-500');
-                enableWebcamButton.classList.add('from-red-600', 'to-pink-600', 'hover:from-red-500', 'hover:to-pink-500');
-
-                // ขอสิทธิ์เข้าถึงกล้อง
-                const constraints = { video: { width: 1280, height: 720 } }; // ขอความละเอียด HD
-                navigator.mediaDevices.getUserMedia(constraints)
-                    .then(function (stream) {
-                        video.srcObject = stream;
-                        // เมื่อภาพจากกล้องมาแล้ว ให้เริ่ม loop ประมวลผล
-                        video.addEventListener("loadeddata", predictWebcam);
-                        
-                        // อัปเดตสถานะระบบ
-                        systemStatus.innerText = "Online & Tracking";
-                        systemStatus.classList.replace('text-red-400', 'text-green-400');
-                        statusDot.classList.replace('bg-red-500', 'bg-green-500');
-                        statusDotPing.classList.replace('bg-red-400', 'bg-green-400');
-                    })
-                    .catch((err) => {
-                        console.error("Error accessing webcam:", err);
-                        buttonText.innerText = "ไม่สามารถเข้าถึงกล้องได้";
-                        webcamRunning = false;
-                    });
+                btn.classList.replace('from-cyan-600', 'from-red-600');
+                btn.classList.replace('to-blue-600', 'to-pink-600');
+                document.getElementById("buttonText").innerText = "ปิดกล้อง";
+                
+                navigator.mediaDevices.getUserMedia({ video: { width: 1280, height: 720 } }).then(function (stream) {
+                    video.srcObject = stream;
+                    video.addEventListener("loadeddata", predictWebcam);
+                    document.getElementById("systemStatus").innerText = "Online & Tracking";
+                    window.addLog("SYSTEM", "เปิดกล้องและเริ่มประมวลผล", "text-yellow-400");
+                });
             }
         }
-        enableWebcamButton.addEventListener("click", enableCam);
+        document.getElementById("enableWebcamButton").addEventListener("click", enableCam);
 
         let lastVideoTime = -1;
 
-        // --- ฟังก์ชัน 3: Loop ประมวลผลภาพและวาดผลลัพธ์ (หัวใจหลัก) ---
         async function predictWebcam() {
-            // ปรับขนาด Canvas ให้ตรงกับ Video เพื่อให้วาดได้ตรงตำแหน่ง
             canvasElement.width = video.videoWidth;
             canvasElement.height = video.videoHeight;
 
             if (video.currentTime !== lastVideoTime) {
                 lastVideoTime = video.currentTime;
-                
-                // ส่งภาพปัจจุบันไปให้ AI ประมวลผล
                 const results = gestureRecognizer.recognizeForVideo(video, Date.now());
                 
-                // เคลียร์ Canvas ก่อนวาดเฟรมใหม่
                 canvasCtx.save();
                 canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
                 
-                // === ส่วนที่ 3.1: วาดโครงกระดูกมือ (Skeleton Extraction) ===
                 if (results.landmarks) {
                     for (const landmarks of results.landmarks) {
-                        // ใช้ drawingUtils วาดเส้นเชื่อมจุดต่างๆ ของมือ
-                        drawingUtils.drawConnectors(
-                            landmarks,
-                            GestureRecognizer.HAND_CONNECTIONS,
-                            { color: "#00FF00", lineWidth: 3 } // เส้นสีเขียวสด
-                        );
-                        // ใช้ drawingUtils วาดจุดข้อต่อต่างๆ
-                        drawingUtils.drawLandmarks(landmarks, {
-                            color: "#FF0000", // จุดสีแดง
-                            lineWidth: 2,
-                            radius: 3 // ขนาดจุด
-                        });
+                        drawingUtils.drawConnectors(landmarks, GestureRecognizer.HAND_CONNECTIONS, { color: "#00FF00", lineWidth: 3 });
+                        drawingUtils.drawLandmarks(landmarks, { color: "#FF0000", lineWidth: 2, radius: 3 });
                     }
                 }
                 canvasCtx.restore();
                 
-                // === ส่วนที่ 3.2: จัดการผลลัพธ์ท่าทาง (Gesture Recognition) ===
+                // --- ระบบวิเคราะห์และเก็บ Log ท่าทาง ---
                 if (results.gestures.length > 0) {
                     const categoryName = results.gestures[0][0].categoryName;
                     const confidence = Math.round(parseFloat(results.gestures[0][0].score) * 100);
@@ -265,77 +248,73 @@
                     let thaiGesture = categoryName;
                     let gestureColor = "text-green-400";
                     
-                    // แปลงชื่อท่าทางเป็นภาษาไทย
                     switch(categoryName) {
-                        case "Closed_Fist": thaiGesture = "กำหมัด ✊"; break;
-                        case "Open_Palm": thaiGesture = "แบมือ 🖐️"; break;
-                        case "Pointing_Up": thaiGesture = "ชี้ขึ้น 👆"; break;
-                        case "Thumb_Up": thaiGesture = "เยี่ยม 👍"; break;
-                        case "Thumb_Down": thaiGesture = "แย่ 👎"; gestureColor = "text-red-400"; break;
-                        case "Victory": thaiGesture = "สู้ๆ ✌️"; break;
-                        case "ILoveYou": thaiGesture = "เลิฟยู 🤟"; break;
+                        case "Closed_Fist": thaiGesture = "กำหมัด"; break;
+                        case "Open_Palm": thaiGesture = "แบมือ"; break;
+                        case "Pointing_Up": thaiGesture = "ชี้ขึ้น"; break;
+                        case "Thumb_Up": thaiGesture = "เยี่ยม"; break;
+                        case "Thumb_Down": thaiGesture = "แย่"; gestureColor = "text-red-400"; break;
+                        case "Victory": thaiGesture = "สู้ๆ (V)"; break;
+                        case "ILoveYou": thaiGesture = "เลิฟยู"; break;
                         case "None": thaiGesture = "ปกติ"; gestureColor = "text-gray-400"; break;
                     }
 
-                    gestureOutput.innerText = thaiGesture;
-                    gestureOutput.className = `text-3xl font-bold transition-all duration-300 ${gestureColor}`;
-                    confidenceOutput.innerText = `Confidence: ${confidence}%`;
+                    document.getElementById("gestureOutput").innerText = thaiGesture;
+                    document.getElementById("confidenceOutput").innerText = `Confidence: ${confidence}%`;
+
+                    // **บันทึก Log เฉพาะตอนที่ท่าทางเปลี่ยน (Debounce)**
+                    if (thaiGesture !== lastLoggedGesture && thaiGesture !== "ปกติ") {
+                        window.addLog("GESTURE", `ตรวจพบท่าทาง: ${thaiGesture} (${confidence}%)`, gestureColor);
+                        lastLoggedGesture = thaiGesture;
+                    } else if (thaiGesture === "ปกติ" && lastLoggedGesture !== "ปกติ") {
+                        // รีเซ็ตสถานะเมื่อเอามือลงหรือทำท่าปกติ
+                        lastLoggedGesture = "ปกติ";
+                    }
+
                 } else {
-                    gestureOutput.innerText = "-";
-                    gestureOutput.className = "text-3xl font-bold text-gray-500 transition-all duration-300";
-                    confidenceOutput.innerText = "Confidence: 0%";
+                    document.getElementById("gestureOutput").innerText = "-";
+                    lastLoggedGesture = ""; // รีเซ็ตเมื่อไม่เจอมือ
                 }
 
-                // === ส่วนที่ 3.3: จัดการผลลัพธ์การเคลื่อนที่ (Motion/Swipe Detection) ===
+                // --- ระบบวิเคราะห์และเก็บ Log การปัด (Swipe) ---
                 if (results.landmarks && results.landmarks.length > 0) {
-                    // ใช้พิกัดแกน X ของจุดที่ 0 (ข้อมือ)
                     const currentX = results.landmarks[0][0].x; 
                     
                     if (previousX !== null) {
                         const deltaX = currentX - previousX;
-                        const swipeThreshold = 0.05; // ค่าความไวในการปัด (ยิ่งน้อยยิ่งไว)
+                        const swipeThreshold = 0.05; 
 
                         if (deltaX > swipeThreshold) {
-                            // ปัดซ้าย (ภาพ Mirror: ค่า X เพิ่มขึ้น = ไปทางซ้ายของจอ)
-                            showSwipeResult("ปัดซ้าย ⬅️", "text-cyan-400", "translate-x-[-10px]");
+                            showSwipeResult("ปัดซ้าย ⬅️", "text-cyan-400");
+                            window.addLog("MOTION", "ตรวจพบการเคลื่อนที่: ปัดไปทางซ้าย", "text-cyan-400");
+                            previousX = null; // ป้องกันการทริกเกอร์ซ้ำติดๆ กัน
                         } else if (deltaX < -swipeThreshold) {
-                            // ปัดขวา (ภาพ Mirror: ค่า X ลดลง = ไปทางขวาของจอ)
-                            showSwipeResult("ปัดขวา ➡️", "text-blue-400", "translate-x-[10px]");
+                            showSwipeResult("ปัดขวา ➡️", "text-blue-400");
+                            window.addLog("MOTION", "ตรวจพบการเคลื่อนที่: ปัดไปทางขวา", "text-blue-400");
+                            previousX = null;
+                        } else {
+                            previousX = currentX;
                         }
+                    } else {
+                        previousX = currentX;
                     }
-                    previousX = currentX;
                 } else {
                     previousX = null;
                 }
             }
-            
-            // เรียกตัวเองซ้ำเพื่อประมวลผลเฟรมถัดไป
-            if (webcamRunning === true) {
-                window.requestAnimationFrame(predictWebcam);
-            }
+            if (webcamRunning === true) window.requestAnimationFrame(predictWebcam);
         }
 
-        // ฟังก์ชันช่วยแสดงผลการปัดมือและรีเซ็ตอัตโนมัติ
-        function showSwipeResult(text, colorClass, translateClass) {
-            swipeOutput.innerText = text;
-            swipeOutput.className = `text-4xl font-black transition-all duration-300 transform ${colorClass} ${translateClass}`;
-            
+        function showSwipeResult(text, colorClass) {
+            const el = document.getElementById("swipeOutput");
+            el.innerText = text;
+            el.className = `text-4xl font-black transition-all duration-300 transform ${colorClass}`;
             clearTimeout(swipeTimer);
             swipeTimer = setTimeout(() => {
-                swipeOutput.innerText = "-";
-                swipeOutput.className = "text-4xl font-black text-gray-500 transition-all duration-300 transform translate-x-0";
-            }, 800); // แสดงผลค้างไว้ 0.8 วินาที
+                el.innerText = "-";
+                el.className = "text-4xl font-black text-gray-500 transition-all duration-300";
+            }, 800);
         }
     </script>
-    
-    <style>
-        .glow-border {
-            box-shadow: 0 0 15px rgba(6, 182, 212, 0.3), inset 0 0 15px rgba(6, 182, 212, 0.1);
-            transition: box-shadow 0.3s ease;
-        }
-        .video-container:hover .glow-border {
-             box-shadow: 0 0 25px rgba(6, 182, 212, 0.5), inset 0 0 20px rgba(6, 182, 212, 0.2);
-        }
-    </style>
 </body>
 </html>
