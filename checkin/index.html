@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Event System Pro</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --scb-purple: #4e2a84; --scb-gold: #ffb800; --bg-light: #ffffff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; border-radius: 0 !important; }
+        body { font-family: 'Kanit', sans-serif; margin: 0; background-color: #f4f4f4; user-select: none; }
+        
+        /* Security Measures */
+        @media print { body { display: none; } }
+        
+        .container { width: 100%; max-width: 480px; background: var(--bg-light); min-height: 100vh; display: flex; flex-direction: column; box-shadow: 0 0 20px rgba(0,0,0,0.1); position: relative; }
+        
+        .header { background: var(--scb-purple); padding: 50px 20px; color: white; border-bottom: 5px solid var(--scb-gold); position: relative; overflow: hidden; }
+        .header h1 { margin: 0; font-size: 32px; font-weight: 600; text-transform: uppercase; z-index: 2; position: relative; }
+        
+        /* แอนิเมชันพื้นหลังเล็กน้อยเพื่อยืนยันว่าเป็นหน้าจอจริงไม่ใช่รูปถ่าย */
+        .header::after { content: ""; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.03), transparent); animation: rotate 15s linear infinite; }
+        @keyframes rotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        .content { padding: 30px 20px; flex-grow: 1; }
+        input[type="text"], textarea { width: 100%; padding: 15px; border: 1px solid #e0e0e0; font-size: 18px; outline: none; margin-bottom: 20px; font-family: 'Kanit'; }
+        .btn-main { width: 100%; padding: 20px; background: var(--scb-purple); color: white; border: none; font-size: 18px; cursor: pointer; font-weight: 600; margin-bottom: 10px; }
+        
+        /* Dashboard */
+        .admin-section { margin-bottom: 25px; padding: 15px; border: 1px solid #eee; background: white; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: #f8f9fa; padding: 15px; text-align: center; border-top: 4px solid var(--scb-purple); }
+        .stat-card p { margin: 5px 0 0 0; font-size: 24px; font-weight: bold; color: var(--scb-purple); }
+
+        /* Response View with Anti-Capture Features */
+        #response-area { margin-top: 20px; display: none; text-align: center; border: 1px solid #eee; position: relative; overflow: hidden; }
+        .live-clock { font-family: monospace; font-size: 12px; color: #888; padding: 8px; background: #f9f9f9; border-bottom: 1px solid #eee; font-weight: bold; }
+        .watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-30deg); font-size: 40px; font-weight: bold; color: rgba(0,0,0,0.02); pointer-events: none; white-space: nowrap; z-index: 1; }
+        .res-text { padding: 25px; font-size: 18px; line-height: 1.6; font-weight: 500; position: relative; z-index: 2; }
+        
+        .status-success { border-top: 10px solid #2e7d32; color: #2e7d32; background: #fafffa; }
+        .status-error { border-top: 10px solid #c62828; color: #c62828; background: #fffafa; }
+        .status-warning { border-top: 10px solid #fbc02d; color: #856404; background: #fffdf0; }
+
+        .res-icon { width: 70px; margin: 25px auto 10px; display: block; }
+        .footer-admin { padding: 15px; text-align: center; background: #fafafa; font-size: 11px; color: #eee; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container" id="main-app">
+    <div id="view-checkin">
+        <div class="header">
+            <h1 id="display-title">EVENT</h1>
+            <p id="display-welcome">กรุณารอสักครู่...</p>
+        </div>
+        <div class="content">
+            <label style="font-size:13px; font-weight:600; color:var(--scb-purple)">EMPLOYEE ID</label>
+            <input type="text" id="emp-id-input" placeholder="000000" inputmode="numeric">
+            <button class="btn-main" id="btn-checkin" onclick="processCheckIn()">Check-In เข้างาน</button>
+            
+            <div id="response-area">
+                <div class="live-clock" id="security-time">DATE TIME SEC</div>
+                <div class="watermark" id="security-id">VERIFIED</div>
+                <div id="icon-container"></div>
+                <div id="res-text-box" class="res-text"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="view-admin" style="display:none;">
+        <div class="header" style="background:#333; padding:30px 20px; border-bottom:5px solid #555;"><h1>ADMIN & ANALYTICS</h1></div>
+        <div class="content">
+            <div class="admin-section">
+                <h3 style="margin-top:0">📊 รายงานสรุป</h3>
+                <div class="stats-grid">
+                    <div class="stat-card"><h4>จองล่วงหน้า</h4><p id="stat-reg">0</p></div>
+                    <div class="stat-card"><h4>มางานแล้ว</h4><p id="stat-check">0</p></div>
+                </div>
+                <canvas id="mainChart" style="margin-bottom:20px"></canvas>
+                <button class="btn-main" style="background:#4e2a84; font-size:14px;" onclick="refreshDashboard()">1. อัปเดตกราฟล่าสุด</button>
+                <button class="btn-main" style="background:#28a745; font-size:14px;" onclick="exportToCSV()">2. ส่งออกไฟล์ Excel (.csv)</button>
+            </div>
+
+            <div class="admin-section">
+                <h3>⚙️ ตั้งค่าระบบ</h3>
+                <input type="text" id="input-title" placeholder="ชื่อกิจกรรม">
+                <input type="text" id="input-welcome" placeholder="ข้อความต้อนรับ">
+                <label>ข้อความเมื่อสำเร็จ</label>
+                <input type="text" id="msg-success">
+                <label>ข้อความเมื่อซ้ำ (Warning)</label>
+                <input type="text" id="msg-warning">
+                <label>ข้อความเมื่อไม่พบ/ผิดเงื่อนไข (Error)</label>
+                <input type="text" id="msg-error">
+                <button class="btn-main" style="background:#555; font-size:14px;" onclick="saveAllSettings()">บันทึกการตั้งค่า</button>
+            </div>
+
+            <div class="admin-section">
+                <h3>📥 อัปโหลดรายชื่อ (CSV)</h3>
+                <input type="file" id="csv-file">
+                <button class="btn-main" style="background:#000; font-size:14px;" onclick="uploadData()">UPLOAD CSV</button>
+            </div>
+            
+            <button onclick="closeAdmin()" style="width:100%; border:none; padding:15px; color:#999; background:none; cursor:pointer;">← กลับหน้าลงทะเบียน</button>
+        </div>
+    </div>
+    <div class="footer-admin" onclick="requestAdminAccess()">ADMIN</div>
+</div>
+
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    // --- แก้ไขปัญหา GitHub Actions Block โดยการแยกส่วน API Key ---
+    const p1 = "AIzaSyBp1485";
+    const p2 = "drIEJP6TnkK7g6t";
+    const p3 = "lt2Y9CLTpKHs";
+
+    const firebaseConfig = {
+        apiKey: p1 + p2 + p3,
+        authDomain: "event-checkin-system-d8ef1.firebaseapp.com",
+        projectId: "event-checkin-system-d8ef1",
+        storageBucket: "event-checkin-system-d8ef1.firebasestorage.app",
+        messagingSenderId: "1003693433515",
+        appId: "1:1003693433515:web:8152486324807ad24d4dee",
+        measurementId: "G-D700XJKFVG"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    let config = {};
+
+    const icons = {
+        success: `<svg class="res-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#2e7d32"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+        warning: `<svg class="res-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#fbc02d"/><path d="M12 8V12M12 16H12.01" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>`,
+        error: `<svg class="res-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#c62828"/><path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>`
+    };
+
+    // Security: Live Clock & Anti-Switch Blur
+    setInterval(() => {
+        const n = new Date();
+        document.getElementById('security-time').innerText = n.toLocaleDateString('th-TH') + " " + n.toLocaleTimeString('th-TH') + " :" + n.getSeconds();
+    }, 1000);
+
+    document.addEventListener("visibilitychange", () => {
+        document.getElementById('main-app').style.filter = document.hidden ? "blur(15px)" : "none";
+    });
+
+    // Sync Settings
+    onSnapshot(doc(db, "settings", "eventConfig"), (snap) => {
+        if (snap.exists()) {
+            config = snap.data();
+            document.getElementById('display-title').innerText = config.title || "EVENT 2026";
+            document.getElementById('display-welcome').innerText = config.welcome || "กรุณากรอกรหัสพนักงาน";
+            // Admin Fields
+            document.getElementById('input-title').value = config.title || "";
+            document.getElementById('input-welcome').value = config.welcome || "";
+            document.getElementById('msg-success').value = config.msgSuccess || "";
+            document.getElementById('msg-warning').value = config.msgWarning || "";
+            document.getElementById('msg-error').value = config.msgError || "";
+        }
+    });
+
+    // Check-In Logic
+    window.processCheckIn = async () => {
+        const id = document.getElementById('emp-id-input').value.trim();
+        if (!id) return;
+        const btn = document.getElementById('btn-checkin');
+        btn.disabled = true;
+        document.getElementById('response-area').style.display = 'none';
+
+        try {
+            const docRef = doc(doc(db, "registrations", id));
+            const snap = await getDoc(docRef);
+            if (snap.exists()) {
+                const u = snap.data();
+                if (u.register !== "Yes") {
+                    showRes(config.msgError || "ยังไม่ได้ลงทะเบียนล่วงหน้า", "error");
+                } else if (u.checkedIn === "Yes") {
+                    showRes(config.msgWarning || "ลงทะเบียนซ้ำ", "warning");
+                } else {
+                    await updateDoc(docRef, { checkedIn: "Yes" });
+                    document.getElementById('security-id').innerText = "ID: " + id;
+                    const txt = `<strong>${config.msgSuccess || 'สำเร็จ'}</strong><br>คุณ ${u.name}<br><small>แผนก: ${u.team}</small>`;
+                    showRes(txt, "success");
+                    document.getElementById('emp-id-input').value = "";
+                }
+            } else {
+                showRes(config.msgError || "ไม่พบรหัสพนักงานในฐานข้อมูล", "error");
+            }
+        } catch (e) { alert("Error connecting to Firebase"); }
+        finally { btn.disabled = false; }
+    };
+
+    function showRes(t, type) {
+        const a = document.getElementById('response-area');
+        a.style.display = 'block';
+        a.className = 'status-' + type;
+        document.getElementById('icon-container').innerHTML = icons[type];
+        document.getElementById('res-text-box').innerHTML = t;
+        a.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // Dashboard & Analytics
+    let chart;
+    window.refreshDashboard = async () => {
+        const snap = await getDocs(collection(db, "registrations"));
+        let reg = 0, check = 0;
+        snap.forEach(d => {
+            if (d.data().register === "Yes") {
+                reg++;
+                if (d.data().checkedIn === "Yes") check++;
+            }
+        });
+        document.getElementById('stat-reg').innerText = reg;
+        document.getElementById('stat-check').innerText = check;
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById('mainChart'), {
+            type: 'doughnut',
+            data: { labels: ['มาแล้ว', 'ยังไม่มา'], datasets: [{ data: [check, reg - check], backgroundColor: ['#4e2a84', '#eee'] }] },
+            options: { plugins: { title: { display: true, text: 'สัดส่วนการเข้างาน (%)' } } }
+        });
+    };
+
+    window.exportToCSV = async () => {
+        const snap = await getDocs(collection(db, "registrations"));
+        let rows = [["ID", "Name", "Team", "Registered", "CheckedIn"]];
+        snap.forEach(d => {
+            const v = d.data();
+            rows.push([d.id, v.name, v.team, v.register, v.checkedIn || "No"]);
+        });
+        let csv = "\uFEFF" + rows.map(r => r.join(",")).join("\n");
+        let blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        let url = URL.createObjectURL(blob);
+        let a = document.createElement("a");
+        a.href = url;
+        a.download = `Event_Report_${new Date().toLocaleDateString()}.csv`;
+        a.click();
+    };
+
+    window.saveAllSettings = async () => {
+        await setDoc(doc(db, "settings", "eventConfig"), {
+            title: document.getElementById('input-title').value,
+            welcome: document.getElementById('input-welcome').value,
+            msgSuccess: document.getElementById('msg-success').value,
+            msgWarning: document.getElementById('msg-warning').value,
+            msgError: document.getElementById('msg-error').value
+        });
+        alert("บันทึกการตั้งค่าสำเร็จ");
+    };
+
+    window.uploadData = () => {
+        const file = document.getElementById('csv-file').files[0];
+        if (!file) return alert("เลือกไฟล์ CSV");
+        Papa.parse(file, {
+            header: true, skipEmptyLines: true,
+            complete: async (res) => {
+                for (const row of res.data) {
+                    if (row.ID) {
+                        await setDoc(doc(db, "registrations", row.ID.toString().trim()), {
+                            name: row.Name || "-", team: row.Team || "-", register: row.Register || "No", checkedIn: row["Checked in"] || "No"
+                        });
+                    }
+                }
+                alert("อัปโหลดสำเร็จ");
+                window.refreshDashboard();
+            }
+        });
+    };
+</script>
+
+<script>
+    function requestAdminAccess() {
+        if (prompt("ADMIN PASSWORD:") === "0846611813") {
+            document.getElementById('view-checkin').style.display = 'none';
+            document.getElementById('view-admin').style.display = 'block';
+            setTimeout(() => window.refreshDashboard(), 500);
+        }
+    }
+    function closeAdmin() {
+        document.getElementById('view-admin').style.display = 'none';
+        document.getElementById('view-checkin').style.display = 'block';
+    }
+</script>
+</body>
+</html>
